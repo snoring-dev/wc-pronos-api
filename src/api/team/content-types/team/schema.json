@@ -37,6 +37,9 @@
       "relation": "oneToMany",
       "target": "api::player.player",
       "mappedBy": "team"
+    },
+    "country_code": {
+      "type": "string"
     }
   }
 }
