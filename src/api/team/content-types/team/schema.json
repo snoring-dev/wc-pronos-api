@@ -39,7 +39,10 @@
       "mappedBy": "team"
     },
     "country_code": {
-      "type": "string"
+      "type": "string",
+      "required": true,
+      "maxLength": 3,
+      "unique": true
     }
   }
 }
