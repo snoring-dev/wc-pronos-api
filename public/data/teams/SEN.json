@@ -1,0 +1,117 @@
+{
+    "team":"SENEGAL",
+    "players":[
+       {
+          "number":"1",
+          "fullName":"Seny Timothy Dieng"
+       },
+       {
+          "number":"16",
+          "fullName":"Édouard Mendy"
+       },
+       {
+          "number":"23",
+          "fullName":"Alfred Gomis"
+       },
+       {
+          "number":"2",
+          "fullName":"Saliou Ciss"
+       },
+       {
+          "number":"3",
+          "fullName":"Kalidou Koulibaly"
+       },
+       {
+          "number":"4",
+          "fullName":"Pape Abou Cissé"
+       },
+       {
+          "number":"12",
+          "fullName":"Alpha Dionkou"
+       },
+       {
+          "number":"12",
+          "fullName":"Fodé Ballo-Touré"
+       },
+       {
+          "number":"14",
+          "fullName":"Abdoulaye Seck"
+       },
+       {
+          "number":"21",
+          "fullName":"Youssouf Sabaly"
+       },
+       {
+          "number":"22",
+          "fullName":"Abdou Diallo"
+       },
+       {
+          "number":"22",
+          "fullName":"Moussa Wagué"
+       },
+       {
+          "number":"5",
+          "fullName":"Idrissa Gana Gueye"
+       },
+       {
+          "number":"6",
+          "fullName":"Nampalys Mendy"
+       },
+       {
+          "number":"8",
+          "fullName":"Cheikhou Kouyaté"
+       },
+       {
+          "number":"10",
+          "fullName":"Sadio Mané"
+       },
+       {
+          "number":"13",
+          "fullName":"Pape Gueye"
+       },
+       {
+          "number":"14",
+          "fullName":"Mamadou Loum"
+       },
+       {
+          "number":"15",
+          "fullName":"Moustapha Name"
+       },
+       {
+          "number":"15",
+          "fullName":"Krépin Diatta"
+       },
+       {
+          "number":"17",
+          "fullName":"Pape Matar Sarr"
+       },
+       {
+          "number":"20",
+          "fullName":"Iliman Ndiaye"
+       },
+       {
+          "number":"7",
+          "fullName":"Keita Baldé"
+       },
+       {
+          "number":"9",
+          "fullName":"Demba Seck"
+       },
+       {
+          "number":"9",
+          "fullName":"Boulaye Dia"
+       },
+       {
+          "number":"11",
+          "fullName":"Habib Diallo"
+       },
+       {
+          "number":"18",
+          "fullName":"Ismaïla Sarr"
+       },
+       {
+          "number":"19",
+          "fullName":"Famara Diédhiou"
+       }
+    ]
+ }

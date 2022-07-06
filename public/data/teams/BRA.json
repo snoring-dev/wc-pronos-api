@@ -1,0 +1,129 @@
+{
+    "team":"BRAZIL",
+    "players":[
+       {
+          "number":"1",
+          "fullName":"Alisson Becker"
+       },
+       {
+          "number":"12",
+          "fullName":"Weverton Pereira da Silva"
+       },
+       {
+          "number":"23",
+          "fullName":"Ederson"
+       },
+       {
+          "number":"",
+          "fullName":"Gabriel"
+       },
+       {
+          "number":"2",
+          "fullName":"Éder Militão"
+       },
+       {
+          "number":"2",
+          "fullName":"Leonardo Rech Ortiz"
+       },
+       {
+          "number":"3",
+          "fullName":"Thiago Silva"
+       },
+       {
+          "number":"3",
+          "fullName":"Rodrigo Caio Coquette Russo"
+       },
+       {
+          "number":"4",
+          "fullName":"Marquinhos"
+       },
+       {
+          "number":"6",
+          "fullName":"Guilherme Antonio Arana Lopes"
+       },
+       {
+          "number":"6",
+          "fullName":"Alex Sandro"
+       },
+       {
+          "number":"13",
+          "fullName":"Dani Alves"
+       },
+       {
+          "number":"16",
+          "fullName":"Alex Telles"
+       },
+       {
+          "number":"5",
+          "fullName":"Casemiro"
+       },
+       {
+          "number":"7",
+          "fullName":"Lucas Paquetá"
+       },
+       {
+          "number":"7",
+          "fullName":"David Neres"
+       },
+       {
+          "number":"8",
+          "fullName":"Arthur"
+       },
+       {
+          "number":"8",
+          "fullName":"Fred"
+       },
+       {
+          "number":"11",
+          "fullName":"Philippe Coutinho"
+       },
+       {
+          "number":"14",
+          "fullName":"Danilo dos Santos de Oliveira"
+       },
+       {
+          "number":"15",
+          "fullName":"Fabinho"
+       },
+       {
+          "number":"17",
+          "fullName":"Bruno Guimarães"
+       },
+       {
+          "number":"18",
+          "fullName":"Allan"
+       },
+       {
+          "number":"20",
+          "fullName":"Vinícius Jr"
+       },
+       {
+          "number":"9",
+          "fullName":"Richarlison"
+       },
+       {
+          "number":"10",
+          "fullName":"Neymar"
+       },
+       {
+          "number":"18",
+          "fullName":"Gabriel Jesus"
+       },
+       {
+          "number":"19",
+          "fullName":"Raphinha"
+       },
+       {
+          "number":"21",
+          "fullName":"Matheus Cunha"
+       },
+       {
+          "number":"22",
+          "fullName":"Gabriel Martinelli"
+       },
+       {
+          "number":"23",
+          "fullName":"Rodrygo"
+       }
+    ]
+ }

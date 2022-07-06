@@ -1,0 +1,129 @@
+{
+    "team":"ARGENTINA",
+    "players":[
+       {
+          "number":"1",
+          "fullName":"Franco Armani"
+       },
+       {
+          "number":"12",
+          "fullName":"Gerónimo Rulli"
+       },
+       {
+          "number":"23",
+          "fullName":"Juan Musso"
+       },
+       {
+          "number":"2",
+          "fullName":"Facundo Medina"
+       },
+       {
+          "number":"2",
+          "fullName":"Juan Foyth"
+       },
+       {
+          "number":"3",
+          "fullName":"Nicolás Tagliafico"
+       },
+       {
+          "number":"4",
+          "fullName":"Gonzalo Montiel"
+       },
+       {
+          "number":"6",
+          "fullName":"Germán Pezzella"
+       },
+       {
+          "number":"8",
+          "fullName":"Marcos Acuña"
+       },
+       {
+          "number":"13",
+          "fullName":"Cristian Romero"
+       },
+       {
+          "number":"16",
+          "fullName":"Lisandro Martínez"
+       },
+       {
+          "number":"19",
+          "fullName":"Nicolás Otamendi"
+       },
+       {
+          "number":"19",
+          "fullName":"Patricio Nehuen Pérez"
+       },
+       {
+          "number":"25",
+          "fullName":"Marcos Nicolás Senesi Barón"
+       },
+       {
+          "number":"26",
+          "fullName":"Nahuel Molina Lucero"
+       },
+       {
+          "number":"5",
+          "fullName":"Alexis Mac Allister"
+       },
+       {
+          "number":"5",
+          "fullName":"Leandro Paredes"
+       },
+       {
+          "number":"7",
+          "fullName":"Roberto Pereyra"
+       },
+       {
+          "number":"7",
+          "fullName":"Rodrigo De Paul"
+       },
+       {
+          "number":"9",
+          "fullName":"Julián Álvarez"
+       },
+       {
+          "number":"11",
+          "fullName":"Ángel Di María"
+       },
+       {
+          "number":"14",
+          "fullName":"Exequiel Palacios"
+       },
+       {
+          "number":"15",
+          "fullName":"Nicolás González"
+       },
+       {
+          "number":"17",
+          "fullName":"Alejandro Darío Gómez"
+       },
+       {
+          "number":"18",
+          "fullName":"Guido Rodríguez"
+       },
+       {
+          "number":"20",
+          "fullName":"Giovani Lo Celso"
+       },
+       {
+          "number":"",
+          "fullName":"Alejandro Garnacho Ferreira"
+       },
+       {
+          "number":"10",
+          "fullName":"Lionel Messi"
+       },
+       {
+          "number":"19",
+          "fullName":"Joaquín Correa"
+       },
+       {
+          "number":"21",
+          "fullName":"Paulo Dybala"
+       },
+       {
+          "number":"22",
+          "fullName":"Lautaro Martínez"
+       }
+    ]
+ }

@@ -1,0 +1,129 @@
+{
+    "team":"BELGIUM",
+    "players":[
+       {
+          "number":"1",
+          "fullName":"Thibaut Courtois"
+       },
+       {
+          "number":"12",
+          "fullName":"Simon Luc Hildebert Mignolet"
+       },
+       {
+          "number":"13",
+          "fullName":"Koen Casteels"
+       },
+       {
+          "number":"13",
+          "fullName":"Matz Sels"
+       },
+       {
+          "number":"2",
+          "fullName":"Toby Albertine Maurits Alderweireld"
+       },
+       {
+          "number":"3",
+          "fullName":"Arthur Nicolas Theate"
+       },
+       {
+          "number":"3",
+          "fullName":"Jason Denayer"
+       },
+       {
+          "number":"4",
+          "fullName":"Brandon Mechele"
+       },
+       {
+          "number":"4",
+          "fullName":"Dedryck Boyata"
+       },
+       {
+          "number":"5",
+          "fullName":"Jan Bert Lieve Vertonghen"
+       },
+       {
+          "number":"15",
+          "fullName":"Thomas Meunier"
+       },
+       {
+          "number":"15",
+          "fullName":"Thomas Foket"
+       },
+       {
+          "number":"22",
+          "fullName":"Wout Faes"
+       },
+       {
+          "number":"6",
+          "fullName":"Axel Laurent Angel Lambert Witsel"
+       },
+       {
+          "number":"7",
+          "fullName":"Dennis Praet"
+       },
+       {
+          "number":"8",
+          "fullName":"Youri Tielemans"
+       },
+       {
+          "number":"10",
+          "fullName":"Eden Hazard"
+       },
+       {
+          "number":"11",
+          "fullName":"Charles De Ketelaere"
+       },
+       {
+          "number":"11",
+          "fullName":"Yannick Ferreira Carrasco"
+       },
+       {
+          "number":"14",
+          "fullName":"Dries Mertens"
+       },
+       {
+          "number":"18",
+          "fullName":"Adnan Januzaj"
+       },
+       {
+          "number":"18",
+          "fullName":"Amadou Onana"
+       },
+       {
+          "number":"19",
+          "fullName":"Leander Dendoncker"
+       },
+       {
+          "number":"20",
+          "fullName":"Hans Vanaken"
+       },
+       {
+          "number":"21",
+          "fullName":"Timothy Castagne"
+       },
+       {
+          "number":"22",
+          "fullName":"Alexis Jesse Saelemaekers"
+       },
+       {
+          "number":"9",
+          "fullName":"Ikoma Loïs Openda"
+       },
+       {
+          "number":"9",
+          "fullName":"Romelu Lukaku"
+       },
+       {
+          "number":"16",
+          "fullName":"Thorgan Ganael Francis Hazard"
+       },
+       {
+          "number":"17",
+          "fullName":"Leandro Trossard"
+       },
+       {
+          "number":"23",
+          "fullName":"Michy Batshuayi"
+       }
+    ]
+ }
