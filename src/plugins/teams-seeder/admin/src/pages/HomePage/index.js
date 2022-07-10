@@ -1,18 +1,32 @@
-import React, { memo, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { EmptyStateLayout } from "@strapi/design-system/EmptyStateLayout";
 import { BaseHeaderLayout, ContentLayout } from "@strapi/design-system/Layout";
+import { LoadingIndicatorPage } from "@strapi/helper-plugin";
 import { Button } from "@strapi/design-system/Button";
 import Plus from "@strapi/icons/Plus";
 import { EmptyState } from "../../components/EmptyState";
 import { AddSeedModal } from "../../components/AddSeedModal";
 import { SeedsTable } from "../../components/SeedsTable";
 import SeedsCount from "../../components/SeedsCount";
+import teamSelectionApi from '../../api/team-selection';
 
 // import PropTypes from 'prop-types';
 
 const HomePage = () => {
   const [data, setData] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchData = async () => {
+    if (isLoading === false) setIsLoading(true);
+    const seeds = await teamSelectionApi.findAll();
+    setData(seeds);
+    setIsLoading(false);
+  }
+
+  useEffect(async () => {
+    await fetchData();
+  },[]);
 
   async function addSeed(newEntry) {
     setData([...data, { ...newEntry }]);
@@ -29,6 +43,8 @@ const HomePage = () => {
   async function editSeed(id, data) {
     alert("Add Edit Seed in API");
   }
+
+  if (isLoading) return <LoadingIndicatorPage />;
 
   return (
     <>

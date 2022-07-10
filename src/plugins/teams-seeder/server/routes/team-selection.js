@@ -1,9 +1,51 @@
-'use strict';
+"use strict";
 
 /**
  *  router.
  */
 
-const { createCoreRouter } = require('@strapi/strapi').factories;
+module.exports = [
+  {
+    method: "GET",
+    path: "/find",
+    handler: "teamSelectionController.find",
+    config: {
+      policies: [],
+    },
+  },
+  {
+    method: "POST",
+    path: "/create",
+    handler: "teamSelectionController.create",
+    config: {
+      policies: [],
+    },
+  },
 
-module.exports = createCoreRouter('plugin::teams-seeder.team-selection');
+  {
+    method: "DELETE",
+    path: "/delete/:id",
+    handler: "teamSelectionController.delete",
+    config: {
+      policies: [],
+    },
+  },
+
+  {
+    method: "PUT",
+    path: "/toggle/:id",
+    handler: "teamSelectionController.toggle",
+    config: {
+      policies: [],
+    },
+  },
+
+  {
+    method: "PUT",
+    path: "/update/:id",
+    handler: "teamSelectionController.update",
+    config: {
+      policies: [],
+    },
+  },
+];

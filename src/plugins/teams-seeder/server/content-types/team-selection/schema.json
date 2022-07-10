@@ -1,10 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "team_selections",
+  "collectionName": "team-selection",
   "info": {
     "singularName": "team-selection",
     "pluralName": "team-selections",
-    "displayName": "teamSelection"
+    "displayName": "team-selection"
   },
   "options": {
     "draftAndPublish": false,

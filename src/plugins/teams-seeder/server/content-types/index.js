@@ -1,3 +1,6 @@
 'use strict';
+const teamSelection = require('./team-selection');
 
-module.exports = {};
+module.exports = {
+    ['team-selection']: teamSelection,
+};

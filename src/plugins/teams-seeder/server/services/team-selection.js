@@ -1,9 +1,34 @@
-'use strict';
+"use strict";
 
 /**
  *  service.
  */
+const pluginCollectionName = "plugin::teams-seeder.team-selection";
 
-const { createCoreService } = require('@strapi/strapi').factories;
+module.exports = ({ strapi }) => ({
+  async find(query) {
+    return await strapi.entityService.findMany(
+      pluginCollectionName,
+      query
+    );
+  },
 
-module.exports = createCoreService('plugin::teams-seeder.team-selection');
+  async create(data) {
+    return await strapi.entityService.create(pluginCollectionName, data);
+  },
+
+  async update(id, data) {
+    return await strapi.entityService.update(pluginCollectionName, id, data);
+  },
+
+  async delete(id) {
+    return await strapi.entityService.delete(pluginCollectionName, id);
+  },
+
+  async toggle(id) {
+    const result = await strapi.entityService.findOne(pluginCollectionName, id);
+    return await strapi.entityService.update(pluginCollectionName, id, {
+      data: { parsed: !result.parsed },
+    });
+  },
+});

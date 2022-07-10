@@ -1,3 +1,5 @@
+const teamSelectionRoutes = require('./team-selection');
+
 module.exports = [
   {
     method: 'GET',
@@ -7,4 +9,5 @@ module.exports = [
       policies: [],
     },
   },
+  ...teamSelectionRoutes,
 ];
