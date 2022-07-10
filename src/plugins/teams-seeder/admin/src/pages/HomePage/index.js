@@ -8,7 +8,9 @@ import { EmptyState } from "../../components/EmptyState";
 import { AddSeedModal } from "../../components/AddSeedModal";
 import { SeedsTable } from "../../components/SeedsTable";
 import SeedsCount from "../../components/SeedsCount";
-import teamSelectionApi from '../../api/team-selection';
+import teamSelectionApi from "../../api/team-selection";
+import { useAsyncRetry } from "react-use";
+import { SeedViewModal } from "../../components/SeedViewModal";
 
 // import PropTypes from 'prop-types';
 
@@ -16,31 +18,32 @@ const HomePage = () => {
   const [data, setData] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isViewerShown, setViewerShown] = useState(false);
+  const [selectedSeed, setSelectedSeed] = useState(null);
 
-  const fetchData = async () => {
-    if (isLoading === false) setIsLoading(true);
+  const fetchDataState = useAsyncRetry(async () => {
+    setIsLoading(true);
     const seeds = await teamSelectionApi.findAll();
     setData(seeds);
     setIsLoading(false);
-  }
-
-  useEffect(async () => {
-    await fetchData();
-  },[]);
+  });
 
   async function addSeed(newEntry) {
-    setData([...data, { ...newEntry }]);
+    await teamSelectionApi.addSeed(newEntry);
+    fetchDataState.retry();
   }
 
-  async function toggleSeed(data) {
-    alert("Add Toggle Seed in API");
+  async function toggleSeed(id) {
+    await teamSelectionApi.toggleSeed(id);
+    fetchDataState.retry();
   }
 
-  async function deleteSeed(data) {
-    alert("Add Delete Seed in API");
+  async function deleteSeed(id) {
+    await teamSelectionApi.deleteSeed(id);
+    fetchDataState.retry();
   }
 
-  async function editSeed(id, data) {
+  async function editSeed(id, newSeed) {
     alert("Add Edit Seed in API");
   }
 
@@ -58,14 +61,14 @@ const HomePage = () => {
         {data.length === 0 ? (
           <EmptyStateLayout
             icon={<EmptyState />}
-            content="You don't have any todos yet..."
+            content="You don't have any seeds yet..."
             action={
               <Button
                 onClick={() => setShowModal(true)}
                 variant="secondary"
                 startIcon={<Plus />}
               >
-                Add your first todo
+                Add your first Seed
               </Button>
             }
           />
@@ -79,11 +82,24 @@ const HomePage = () => {
               toggleSeed={toggleSeed}
               deleteSeed={deleteSeed}
               editSeed={editSeed}
+              setSelectedSeed={(seed) => {
+                setSelectedSeed(seed);
+                setViewerShown(true);
+              }}
             />
           </>
         )}
 
-        {showModal && <AddSeedModal setShowModal={setShowModal} addSeed={addSeed} />}
+        {showModal && (
+          <AddSeedModal setShowModal={setShowModal} addSeed={addSeed} />
+        )}
+        {isViewerShown && (
+          <SeedViewModal
+            countryCode={selectedSeed.country_code}
+            jsonData={selectedSeed.players_payload}
+            onClose={() => setViewerShown(false)}
+          />
+        )}
       </ContentLayout>
     </>
   );

@@ -16,7 +16,8 @@ import { IconButton } from "@strapi/design-system/IconButton";
 import { VisuallyHidden } from "@strapi/design-system/VisuallyHidden";
 import { BaseCheckbox } from "@strapi/design-system/BaseCheckbox";
 import { TextInput } from "@strapi/design-system/TextInput";
-import Pencil from "@strapi/icons/Pencil";
+import { Badge } from '@strapi/design-system/Badge';
+import Eye from '@strapi/icons/Eye';
 import Trash from "@strapi/icons/Trash";
 import Plus from "@strapi/icons/Plus";
 
@@ -58,6 +59,7 @@ function SeedsTable({
   deleteSeed,
   editSeed,
   setShowModal,
+  setSelectedSeed,
 }) {
   return (
     <Box
@@ -105,7 +107,9 @@ function SeedsTable({
             return (
               <Tr key={seed.id}>
                 <Td>
-                  <Typography textColor="neutral800">{seed.id}</Typography>
+                  <Typography textColor="neutral800">
+                    <Badge active>{seed.id}</Badge>
+                  </Typography>
                 </Td>
 
                 <Td>
@@ -115,7 +119,9 @@ function SeedsTable({
                       onChange={(e) => setInputValue(e.target.value)}
                     />
                   ) : (
-                    <Typography textColor="neutral800">{seed.country_code}</Typography>
+                    <Typography textColor="neutral800">
+                      {seed.country_code}
+                    </Typography>
                   )}
                 </Td>
 
@@ -140,15 +146,15 @@ function SeedsTable({
                   ) : (
                     <Flex style={{ justifyContent: "end" }}>
                       <IconButton
-                        onClick={() => setIsEdit(true)}
-                        label="Edit"
+                        onClick={() => setSelectedSeed(seed)}
+                        label="Show"
                         noBorder
-                        icon={<Pencil />}
+                        icon={<Eye />}
                       />
 
                       <Box paddingLeft={1}>
                         <IconButton
-                          onClick={() => deleteSeed(todo)}
+                          onClick={() => deleteSeed(seed.id)}
                           label="Delete"
                           noBorder
                           icon={<Trash />}
