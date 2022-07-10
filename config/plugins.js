@@ -13,4 +13,8 @@ module.exports = ({ env }) => ({
       },
     },
   },
+  'teams-seeder': {
+    enabled: true,
+    resolve: './src/plugins/teams-seeder'
+  },
 });

@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "team_selections",
+  "info": {
+    "singularName": "team-selection",
+    "pluralName": "team-selections",
+    "displayName": "teamSelection"
+  },
+  "options": {
+    "draftAndPublish": false,
+    "comment": ""
+  },
+  "attributes": {
+    "id": {
+      "type": "string"
+    },
+    "country_code": {
+      "type": "string"
+    },
+    "players_payload": {
+      "type": "json"
+    },
+    "parsed": {
+      "type": "boolean"
+    }
+  }
+}
