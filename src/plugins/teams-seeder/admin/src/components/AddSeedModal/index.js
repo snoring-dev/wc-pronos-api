@@ -39,6 +39,17 @@ function AddSeedModal({ setShowModal, addSeed }) {
     return null;
   };
 
+  const getContent = () => {
+    let content = '';
+    try {
+      content = JSON.stringify(content);
+    } catch(e) {
+      //
+    }
+
+    return content;
+  }
+
   return (
     <ModalLayout
       onClose={() => setShowModal(false)}

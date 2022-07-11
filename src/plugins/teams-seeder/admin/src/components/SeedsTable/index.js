@@ -20,6 +20,7 @@ import { Badge } from "@strapi/design-system/Badge";
 import Eye from "@strapi/icons/Eye";
 import Trash from "@strapi/icons/Trash";
 import Plus from "@strapi/icons/Plus";
+import Play from "@strapi/icons/Play";
 import ReactCountryFlag from "react-country-flag";
 import { nanoid } from "nanoid";
 
@@ -59,7 +60,7 @@ function SeedsTable({
   seedsData,
   toggleSeed,
   deleteSeed,
-  editSeed,
+  parseSeed,
   setShowModal,
   setSelectedSeed,
 }) {
@@ -102,38 +103,31 @@ function SeedsTable({
 
         <Tbody>
           {seedsData.map((seed) => {
-            const [inputValue, setInputValue] = useState(seed.name);
-
-            const [isEdit, setIsEdit] = useState(false);
-
             return (
               <Tr key={seed.id ? seed.id : nanoid()}>
                 <Td>
                   <Typography textColor="neutral800">
-                    <Badge active>{seed.id ? seed.id : 'undefined'}</Badge>
+                    <Badge active>{seed.id ? seed.id : "undefined"}</Badge>
                   </Typography>
                 </Td>
 
                 <Td>
-                  {isEdit ? (
-                    <SeedInput
-                      value={inputValue}
-                      onChange={(e) => setInputValue(e.target.value)}
+                  <Typography textColor="neutral800">
+                    <ReactCountryFlag
+                      countryCode={
+                        seed.country_code.length > 2
+                          ? seed.country_code.slice(0, -1)
+                          : seed.country_code
+                      }
+                      svg
+                      style={{
+                        fontSize: "1.7em",
+                        lineHeight: "1.7em",
+                        marginRight: "8px",
+                      }}
                     />
-                  ) : (
-                    <Typography textColor="neutral800">
-                      <ReactCountryFlag
-                        countryCode={seed.country_code.slice(0, -1)}
-                        svg
-                        style={{
-                          fontSize: "1.7em",
-                          lineHeight: "1.7em",
-                          marginRight: "8px",
-                        }}
-                      />
-                      {seed.country_code}
-                    </Typography>
-                  )}
+                    {seed.country_code}
+                  </Typography>
                 </Td>
 
                 <Td>
@@ -141,40 +135,38 @@ function SeedsTable({
                     value={seed.parsed}
                     checkboxID={seed.id}
                     callback={toggleSeed}
-                    disabled={isEdit}
                   />
                 </Td>
 
                 <Td>
-                  {isEdit ? (
-                    <Flex style={{ justifyContent: "end" }}>
-                      <Button
-                        onClick={() =>
-                          editSeed(seed.id, { country_code: inputValue })
-                        }
-                      >
-                        Save
-                      </Button>
-                    </Flex>
-                  ) : (
-                    <Flex style={{ justifyContent: "end" }}>
+                  <Flex style={{ justifyContent: "end" }}>
+                    <Box paddingLeft={1}>
                       <IconButton
                         onClick={() => setSelectedSeed(seed)}
                         label="Show"
                         noBorder
                         icon={<Eye />}
                       />
-
+                    </Box>
+                    <Box paddingLeft={1}>
+                      <IconButton
+                        onClick={() => deleteSeed(seed.id)}
+                        label="Delete"
+                        noBorder
+                        icon={<Trash />}
+                      />
+                    </Box>
+                    {!seed.parsed && (
                       <Box paddingLeft={1}>
                         <IconButton
-                          onClick={() => deleteSeed(seed.id)}
-                          label="Delete"
+                          onClick={() => parseSeed(seed.id)}
+                          label="Parse Seed"
                           noBorder
-                          icon={<Trash />}
+                          icon={<Play />}
                         />
                       </Box>
-                    </Flex>
-                  )}
+                    )}
+                  </Flex>
                 </Td>
               </Tr>
             );

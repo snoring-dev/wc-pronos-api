@@ -29,7 +29,6 @@ const HomePage = () => {
   });
 
   async function addSeed(newEntry) {
-    console.log('ENTRY:', newEntry);
     await teamSelectionApi.addSeed(newEntry);
     fetchDataState.retry();
   }
@@ -44,8 +43,10 @@ const HomePage = () => {
     fetchDataState.retry();
   }
 
-  async function editSeed(id, newSeed) {
-    alert("Add Edit Seed in API");
+  async function parseSeed(id) {
+    await teamSelectionApi.parseSeed(id);
+    await teamSelectionApi.toggleSeed(id);
+    fetchDataState.retry();
   }
 
   if (isLoading) return <LoadingIndicatorPage />;
@@ -82,7 +83,7 @@ const HomePage = () => {
               setShowModal={setShowModal}
               toggleSeed={toggleSeed}
               deleteSeed={deleteSeed}
-              editSeed={editSeed}
+              parseSeed={parseSeed}
               setSelectedSeed={(seed) => {
                 setSelectedSeed(seed);
                 setViewerShown(true);

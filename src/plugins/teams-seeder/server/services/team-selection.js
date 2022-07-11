@@ -38,9 +38,22 @@ module.exports = ({ strapi }) => ({
     const teams = await strapi.entityService.findMany('api::team.team');
     const theTeam = teams.find(tm => tm.country_code === payload.country_code);
     if (theTeam) {
-      console.log(payload);
-      const playersPayload = JSON.parse(payload.players_payload); 
-      return playersPayload;
+      try {
+        for (let index = 0; index < payload.players_payload.players.length; index++) {
+          const element = payload.players_payload.players[index];
+          await strapi.entityService.create('api::player.player', {
+            data: {
+              fullname: element.fullName,
+              shirt_number: element.number,
+              team: theTeam,
+            },
+          });
+        }
+        return payload.players_payload;
+      } catch(err) {
+        console.log(err);
+        return null;
+      }
     }
 
     return null;

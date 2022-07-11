@@ -32,6 +32,12 @@ const teamSelectionRequests = {
       method: "DELETE",
     });
   },
+
+  parseSeed: async (id) => {
+    return await request(`/teams-seeder/parse?id=${id}`, {
+      method: "GET",
+    });
+  },
 };
 
 export default teamSelectionRequests;
