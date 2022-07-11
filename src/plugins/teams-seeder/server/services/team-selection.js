@@ -44,7 +44,7 @@ module.exports = ({ strapi }) => ({
           await strapi.entityService.create('api::player.player', {
             data: {
               fullname: element.fullName,
-              shirt_number: element.number,
+              shirt_number: element.number !== "" ? Number(element.number) : 0,
               team: theTeam,
             },
           });
@@ -52,7 +52,7 @@ module.exports = ({ strapi }) => ({
         return payload.players_payload;
       } catch(err) {
         console.log(err);
-        return err;
+        return null;
       }
     }
 
