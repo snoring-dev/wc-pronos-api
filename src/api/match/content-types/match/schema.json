@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "matches",
+  "info": {
+    "singularName": "match",
+    "pluralName": "matches",
+    "displayName": "match"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "left_side": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::team.team"
+    },
+    "right_side": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::team.team"
+    },
+    "title": {
+      "type": "string"
+    },
+    "final_score_string": {
+      "type": "string"
+    },
+    "left_score": {
+      "type": "integer"
+    },
+    "right_score": {
+      "type": "integer"
+    }
+  }
+}

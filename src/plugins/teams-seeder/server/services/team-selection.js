@@ -52,7 +52,7 @@ module.exports = ({ strapi }) => ({
         return payload.players_payload;
       } catch(err) {
         console.log(err);
-        return null;
+        return err;
       }
     }
 
