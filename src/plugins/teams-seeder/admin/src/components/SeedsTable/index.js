@@ -16,10 +16,12 @@ import { IconButton } from "@strapi/design-system/IconButton";
 import { VisuallyHidden } from "@strapi/design-system/VisuallyHidden";
 import { BaseCheckbox } from "@strapi/design-system/BaseCheckbox";
 import { TextInput } from "@strapi/design-system/TextInput";
-import { Badge } from '@strapi/design-system/Badge';
-import Eye from '@strapi/icons/Eye';
+import { Badge } from "@strapi/design-system/Badge";
+import Eye from "@strapi/icons/Eye";
 import Trash from "@strapi/icons/Trash";
 import Plus from "@strapi/icons/Plus";
+import ReactCountryFlag from "react-country-flag";
+import { nanoid } from "nanoid";
 
 function SeedCheckbox({ value, checkboxID, callback, disabled }) {
   const [isChecked, setIsChecked] = useState(value);
@@ -105,10 +107,10 @@ function SeedsTable({
             const [isEdit, setIsEdit] = useState(false);
 
             return (
-              <Tr key={seed.id}>
+              <Tr key={seed.id ? seed.id : nanoid()}>
                 <Td>
                   <Typography textColor="neutral800">
-                    <Badge active>{seed.id}</Badge>
+                    <Badge active>{seed.id ? seed.id : 'undefined'}</Badge>
                   </Typography>
                 </Td>
 
@@ -120,6 +122,15 @@ function SeedsTable({
                     />
                   ) : (
                     <Typography textColor="neutral800">
+                      <ReactCountryFlag
+                        countryCode={seed.country_code.slice(0, -1)}
+                        svg
+                        style={{
+                          fontSize: "1.7em",
+                          lineHeight: "1.7em",
+                          marginRight: "8px",
+                        }}
+                      />
                       {seed.country_code}
                     </Typography>
                   )}
@@ -138,7 +149,9 @@ function SeedsTable({
                   {isEdit ? (
                     <Flex style={{ justifyContent: "end" }}>
                       <Button
-                        onClick={() => editSeed(seed.id, { country_code: inputValue })}
+                        onClick={() =>
+                          editSeed(seed.id, { country_code: inputValue })
+                        }
                       >
                         Save
                       </Button>

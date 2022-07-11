@@ -11,8 +11,20 @@ module.exports = [
     handler: "teamSelectionController.find",
     config: {
       policies: [],
+      auth: false,
     },
   },
+
+  {
+    method: "GET",
+    path: "/parse",
+    handler: "teamSelectionController.parsePayload",
+    config: {
+      policies: [],
+      auth: false,
+    },
+  },
+
   {
     method: "POST",
     path: "/create",

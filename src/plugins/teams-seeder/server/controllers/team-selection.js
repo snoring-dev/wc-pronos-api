@@ -17,6 +17,18 @@ module.exports = {
     }
   },
 
+  async parsePayload(ctx) {
+    try {
+      const { query: { id } } = ctx;
+      return await strapi
+        .plugin('teams-seeder')
+        .service('teamSelectionService')
+        .executePayloadFor(id);
+    } catch (err) {
+      ctx.throw(500, err);
+    }
+  },
+
   async delete(ctx) {
     try {
       ctx.body = await strapi

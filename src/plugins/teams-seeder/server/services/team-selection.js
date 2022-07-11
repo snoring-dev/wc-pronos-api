@@ -14,6 +14,7 @@ module.exports = ({ strapi }) => ({
   },
 
   async create(data) {
+    console.log('CREATE:', data);
     return await strapi.entityService.create(pluginCollectionName, data);
   },
 
@@ -30,5 +31,18 @@ module.exports = ({ strapi }) => ({
     return await strapi.entityService.update(pluginCollectionName, id, {
       data: { parsed: !result.parsed },
     });
+  },
+
+  async executePayloadFor(id) {
+    const payload = await strapi.entityService.findOne(pluginCollectionName, id);
+    const teams = await strapi.entityService.findMany('api::team.team');
+    const theTeam = teams.find(tm => tm.country_code === payload.country_code);
+    if (theTeam) {
+      console.log(payload);
+      const playersPayload = JSON.parse(payload.players_payload); 
+      return playersPayload;
+    }
+
+    return null;
   },
 });

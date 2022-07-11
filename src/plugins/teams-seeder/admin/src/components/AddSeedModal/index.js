@@ -23,7 +23,12 @@ function AddSeedModal({ setShowModal, addSeed }) {
     e.stopPropagation();
 
     try {
-      await addSeed({ id: nanoid(), parsed: false, country_code: name, playersPayload: content });
+      await addSeed({
+        id: nanoid(),
+        parsed: false,
+        country_code: name,
+        players_payload: content,
+      });
       setShowModal(false);
     } catch (e) {
       console.log("error", e);
@@ -64,9 +69,9 @@ function AddSeedModal({ setShowModal, addSeed }) {
             label="Players payload"
             name="content"
             hint="Be sure you add a valid JSON"
-            onChange={(e) => setContent(e.target.value)}
+            onChange={(e) => setContent(JSON.parse(e.target.value))}
           >
-            {content}
+            {JSON.stringify(content)}
           </Textarea>
         </Box>
       </ModalBody>

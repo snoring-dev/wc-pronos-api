@@ -29,6 +29,7 @@ const HomePage = () => {
   });
 
   async function addSeed(newEntry) {
+    console.log('ENTRY:', newEntry);
     await teamSelectionApi.addSeed(newEntry);
     fetchDataState.retry();
   }
