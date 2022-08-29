@@ -35,10 +35,13 @@
         "audios"
       ]
     },
-    "country": {
+    "preferred_team": {
       "type": "json"
     },
-    "preferred_team": {
+    "country": {
+      "type": "string"
+    },
+    "country_from": {
       "type": "json"
     }
   }
