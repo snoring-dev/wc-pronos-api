@@ -36,12 +36,10 @@
       ]
     },
     "country": {
-      "type": "string"
+      "type": "json"
     },
-    "team": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::team.team"
+    "preferred_team": {
+      "type": "json"
     }
   }
 }
