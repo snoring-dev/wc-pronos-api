@@ -46,5 +46,23 @@ module.exports = createCoreController(
         });
       }
     },
+
+    async all(ctx) {
+      try {
+        const entries = await strapi.entityService.findMany('api::community.community', {
+          populate: {
+            users: {
+              populate: {
+                profile: true,
+              },
+            },
+          },
+        });
+
+        return { data: entries };
+      } catch (err) {
+        ctx.body = err;
+      }
+    },
   })
 );
