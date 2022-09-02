@@ -5,9 +5,9 @@
  */
 
 const { createCoreRouter } = require("@strapi/strapi").factories;
-const defaultRouter = createCoreRouter("api::community.community");
+const originalRouter = createCoreRouter("api::community.community");
 
-const customRouter = (innerRouter, routeOveride = [], extraRoutes = []) => {
+const defaultRouter = (innerRouter, routeOveride = [], extraRoutes = []) => {
   let routes;
 
   return {
@@ -43,11 +43,11 @@ const myExtraRoutes = [
     path: "/communities/all",
     handler: "api::community.community.all",
     config: {
-      auth: true,
+      auth: false,
     },
   },
 ];
 
 const myOverideRoute = [];
 
-module.exports = customRouter(defaultRouter, myOverideRoute, myExtraRoutes);
+module.exports = defaultRouter(originalRouter, myOverideRoute, myExtraRoutes);
