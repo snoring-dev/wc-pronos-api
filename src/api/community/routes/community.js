@@ -43,7 +43,7 @@ const myExtraRoutes = [
     path: "/communities/all",
     handler: "api::community.community.all",
     config: {
-      policies: ['plugins::users-permissions.isAuthenticated'],
+      policies: ["global::is-authenticated"],
     },
   },
 ];
