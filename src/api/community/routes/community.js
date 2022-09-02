@@ -42,9 +42,6 @@ const myExtraRoutes = [
     method: "GET",
     path: "/communities/all",
     handler: "api::community.community.all",
-    config: {
-      auth: false,
-    },
   },
 ];
 
