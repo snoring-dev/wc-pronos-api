@@ -46,6 +46,14 @@ const myExtraRoutes = [
       auth: false,
     },
   },
+  {
+    method: "POST",
+    path: "/communities/join",
+    handler: "api::community.community.join",
+    config: {
+      auth: false,
+    },
+  },
 ];
 
 const myOverideRoute = [];
