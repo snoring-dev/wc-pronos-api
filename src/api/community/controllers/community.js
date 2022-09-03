@@ -25,7 +25,11 @@ const getCommunityByCode = async (strapi, accessCode) => {
       populate: {
         users: {
           populate: {
-            profile: true,
+            profile: {
+              populate: {
+                picture: true,
+              },
+            },
           },
         },
       },
@@ -79,7 +83,11 @@ module.exports = createCoreController(
             populate: {
               users: {
                 populate: {
-                  profile: true,
+                  profile: {
+                    populate: {
+                      picture: true,
+                    },
+                  },
                 },
               },
             },
