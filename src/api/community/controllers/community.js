@@ -77,6 +77,7 @@ module.exports = createCoreController(
 
     async all(ctx) {
       try {
+        const { userId } = ctx.request.query;
         const entries = await strapi.entityService.findMany(
           "api::community.community",
           {
@@ -93,9 +94,19 @@ module.exports = createCoreController(
             },
           }
         );
+        
+        if (!userId) {
+          return { data: entries };
+        }
 
-        return { data: entries };
+        const associatedEntries = entries.filter(e => {
+          const ids = e.users.reduce((c, v) => ([...c, v.id]), []);
+          return ids.includes(Number(userId));
+        });
+
+        return { data: associatedEntries };
       } catch (e) {
+        console.log(e);
         return ctx.badRequest("ERROR", {
           message: "Communitites cannot be fetched",
           status: 500,
