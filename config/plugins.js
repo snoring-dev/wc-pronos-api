@@ -17,4 +17,7 @@ module.exports = ({ env }) => ({
     enabled: true,
     resolve: './src/plugins/teams-seeder'
   },
+  'import-export-entries': {
+    enabled: true,
+  },
 });
