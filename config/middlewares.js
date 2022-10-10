@@ -7,7 +7,6 @@ module.exports = [
         useDefaults: true,
         directives: {
           "connect-src": ["'self'", "https:"],
-          // "script-src": ["'self'", "cdn.jsdelivr.net", "blob:"],
           "img-src": [
             "'self'",
             "data:",
