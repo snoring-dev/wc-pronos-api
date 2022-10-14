@@ -4,10 +4,11 @@
   "info": {
     "singularName": "match",
     "pluralName": "matches",
-    "displayName": "match"
+    "displayName": "match",
+    "description": ""
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
@@ -25,13 +26,17 @@
       "type": "string"
     },
     "final_score_string": {
-      "type": "string"
+      "type": "string",
+      "default": "0 - 0"
     },
     "left_score": {
-      "type": "integer"
+      "type": "integer",
+      "default": 0,
+      "min": 0
     },
     "right_score": {
-      "type": "integer"
+      "type": "integer",
+      "min": 0
     }
   }
 }
