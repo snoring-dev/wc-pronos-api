@@ -5,7 +5,7 @@
  */
 
 const { createCoreRouter } = require("@strapi/strapi").factories;
-const originalRouter = createCoreRouter("api::community.community");
+const originalRouter = createCoreRouter("api::pronostic.pronostic");
 
 const defaultRouter = (innerRouter, routeOveride = [], extraRoutes = []) => {
   let routes;
@@ -39,25 +39,17 @@ const defaultRouter = (innerRouter, routeOveride = [], extraRoutes = []) => {
 
 const myExtraRoutes = [
   {
-    method: "GET",
-    path: "/communities/all",
-    handler: "api::community.community.all",
-    config: {
-      auth: false,
-    },
-  },
-  {
     method: "POST",
-    path: "/communities/join",
-    handler: "api::community.community.join",
+    path: "/pronostics/set",
+    handler: "api::pronostic.pronostic.setPrediction",
     config: {
       auth: false,
     },
   },
   {
     method: "GET",
-    path: "/communities/:id",
-    handler: "api::community.community.getCommunityDetails",
+    path: "/pronostics/find",
+    handler: "api::pronostic.pronostic.allPrediction",
     config: {
       auth: false,
     },

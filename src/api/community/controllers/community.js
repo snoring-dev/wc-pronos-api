@@ -146,5 +146,40 @@ module.exports = createCoreController(
         });
       }
     },
+
+    async getCommunityDetails(ctx) {
+      try {
+        const { id } = ctx.request.params;
+        const community = await strapi.entityService.findOne(
+          "api::community.community",
+          id,
+          {
+            populate: {
+              users: {
+                populate: {
+                  profile: {
+                    populate: {
+                      picture: true,
+                    },
+                  },
+                },
+              },
+            },
+          }
+        );
+        if (community)
+          return { data: community };
+        else
+          return ctx.badRequest("Oups!", {
+            message: "Community not found!",
+            status: 404,
+          });
+      } catch (e) {
+        return ctx.badRequest("Oups!", {
+          message: "You can't join this community",
+          status: 500,
+        });
+      }
+    }
   })
 );

@@ -74,6 +74,12 @@
       "relation": "manyToMany",
       "target": "api::community.community",
       "mappedBy": "users"
+    },
+    "pronostics": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::pronostic.pronostic",
+      "mappedBy": "owner"
     }
   }
 }

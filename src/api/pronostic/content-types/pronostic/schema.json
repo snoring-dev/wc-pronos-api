@@ -1,0 +1,38 @@
+{
+  "kind": "collectionType",
+  "collectionName": "pronostics",
+  "info": {
+    "singularName": "pronostic",
+    "pluralName": "pronostics",
+    "displayName": "pronostic",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "match_id": {
+      "type": "integer"
+    },
+    "first_team_to_score": {
+      "type": "integer"
+    },
+    "first_player_to_score": {
+      "type": "integer"
+    },
+    "predicted_result": {
+      "type": "json"
+    },
+    "owner": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "pronostics"
+    },
+    "parsed": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}
