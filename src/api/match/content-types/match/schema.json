@@ -37,6 +37,16 @@
     "right_score": {
       "type": "integer",
       "min": 0
+    },
+    "first_player_to_score": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::player.player"
+    },
+    "first_team_to_score": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::team.team"
     }
   }
 }
