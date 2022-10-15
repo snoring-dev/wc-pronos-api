@@ -80,6 +80,12 @@
       "relation": "oneToMany",
       "target": "api::pronostic.pronostic",
       "mappedBy": "owner"
+    },
+    "score": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::score.score",
+      "inversedBy": "user"
     }
   }
 }

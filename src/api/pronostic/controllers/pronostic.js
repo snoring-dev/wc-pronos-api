@@ -20,12 +20,43 @@ const { user } = require("pg/lib/defaults");
 const { createCoreController } = require("@strapi/strapi").factories;
 const collection = "api::pronostic.pronostic";
 
+const setScoreForUser = async (strapi, score, user) => {
+  if (!user.score) {
+    const record = await strapi.entityService.create("api::score.score", {
+      data: {
+        value: score,
+        user: user.id,
+      },
+    });
+
+    return record;
+  }
+
+  const previousScore = user.score.value;
+  return await strapi.entityService.update("api::score.score", user.score.id, {
+    data: {
+      value: score + previousScore,
+    },
+  });
+};
+
+const setPredictionAsParsed = async (strapi, prono) => {
+  return await strapi.entityService.update(collection, prono.id, {
+    data: {
+      parsed: true,
+    },
+  });
+};
+
 const getUserById = async (strapi, userId) => {
   const user = await strapi.db.query("plugin::users-permissions.user").findOne({
     where: {
       id: {
         $eq: userId,
       },
+    },
+    populate: {
+      score: true,
     },
   });
   return user;
@@ -105,8 +136,8 @@ const getWinner = (left, right) => {
 };
 
 const hasPredictedTheWinner = (predicted_result, match) => {
-  const w1 = getWinner(predicted_result.leftSide, predicted_result.righSide);
-  const w2 = getWinner(match.leftScore, match.rightScore);
+  const w1 = getWinner(predicted_result.leftSide, predicted_result.rightSide);
+  const w2 = getWinner(match.left_score, match.right_score);
   return w1 === w2;
 };
 
@@ -177,11 +208,12 @@ module.exports = createCoreController(collection, ({ strapi }) => ({
   async parsePrediction(ctx) {
     let score = 0;
     const { matchId = null, userId = null } = ctx.request.body;
+    const user = await getUserById(strapi, userId);
     // get a single prediction
     const prono = await getSinglePrediction(strapi, userId, matchId);
     // get the match
     const match = await getMatchById(strapi, matchId);
-    if (prono && match && prono.match_id === match.id) {
+    if (prono && !prono.parsed && match && prono.match_id === match.id) {
       const firstPlayerToScrore = await getPlayerById(
         strapi,
         prono.first_player_to_score
@@ -193,9 +225,8 @@ module.exports = createCoreController(collection, ({ strapi }) => ({
       const { predicted_result } = prono;
       // RULES:
       // if the result is exacte: +3 pt
-      const exactResult =
-        predicted_result.leftSide === match.leftScore &&
-        predicted_result.righSide === match.rightScore;
+      const guessResult = `${predicted_result.leftSide} - ${predicted_result.rightSide}`;
+      const exactResult = match.final_score_string === guessResult;
       if (exactResult) score += 3;
       // if not, but still have a win: +1
       else {
@@ -203,9 +234,9 @@ module.exports = createCoreController(collection, ({ strapi }) => ({
         if (
           compareScore(
             predicted_result.leftSide,
-            predicted_result.righSide,
-            match.leftScore,
-            match.rightScore
+            predicted_result.rightSide,
+            match.left_score,
+            match.right_score
           ) === 0
         ) {
           score += 1;
@@ -218,9 +249,10 @@ module.exports = createCoreController(collection, ({ strapi }) => ({
         score += 1;
       }
 
-      // @TODO: u still have to update the prediction to PARSED!
+      const updatedScore = await setScoreForUser(strapi, score, user);
+      await setPredictionAsParsed(strapi, prono);
 
-      return { data: { prediction: { ...prono }, score } };
+      return { data: { prediction: { ...prono }, updatedScore } };
     } else {
       return ctx.badRequest("Something went wrong", {
         message: "Your prediction does not correspond to the selected Match",
