@@ -62,6 +62,14 @@ const myExtraRoutes = [
       auth: false,
     },
   },
+  {
+    method: "POST",
+    path: "/pronostics/parseAll",
+    handler: "api::pronostic.pronostic.parseAllPredictions",
+    config: {
+      auth: false,
+    },
+  },
 ];
 
 const myOverideRoute = [];

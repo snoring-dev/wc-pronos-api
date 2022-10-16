@@ -125,6 +125,9 @@ const getPredictionsForMatch = async (strapi, matchId) => {
     where: {
       match_id: matchId,
     },
+    populate: {
+      owner: true,
+    },
   });
   return predictions;
 };
@@ -148,6 +151,61 @@ const compareScore = (l1, r1, l2, r2) => {
   else if (score1 < score2) return -1;
   return 0;
 };
+
+const execurePrediction = async (strapi, matchId, userId) => {
+  let score = 0;
+  const user = await getUserById(strapi, userId);
+  // get a single prediction
+  const prono = await getSinglePrediction(strapi, userId, matchId);
+  // get the match
+  const match = await getMatchById(strapi, matchId);
+  if (prono && !prono.parsed && match && prono.match_id === match.id) {
+    const firstPlayerToScrore = await getPlayerById(
+      strapi,
+      prono.first_player_to_score
+    );
+    const firstTeamToScore = await getTeamById(
+      strapi,
+      prono.first_team_to_score
+    );
+    const { predicted_result } = prono;
+    // RULES:
+    // if the result is exacte: +3 pt
+    const guessResult = `${predicted_result.leftSide} - ${predicted_result.rightSide}`;
+    const exactResult = match.final_score_string === guessResult;
+    if (exactResult) score += 3;
+    // if not, but still have a win: +1
+    else {
+      if (hasPredictedTheWinner(predicted_result, match)) score += 1;
+      if (
+        compareScore(
+          predicted_result.leftSide,
+          predicted_result.rightSide,
+          match.left_score,
+          match.right_score
+        ) === 0
+      ) {
+        score += 1;
+      }
+    }
+    if (firstPlayerToScrore.id === match.first_player_to_score.id) {
+      score += 1;
+    }
+    if (firstTeamToScore.id === match.first_team_to_score.id) {
+      score += 1;
+    }
+
+    const updatedScore = await setScoreForUser(strapi, score, user);
+    await setPredictionAsParsed(strapi, prono);
+
+    return { data: { prediction: { ...prono }, updatedScore } };
+  } else {
+    return ctx.badRequest("Something went wrong", {
+      message: "Your prediction does not correspond to the selected Match",
+      status: 404,
+    });
+  }
+}
 
 module.exports = createCoreController(collection, ({ strapi }) => ({
   async setPrediction(ctx) {
@@ -206,58 +264,21 @@ module.exports = createCoreController(collection, ({ strapi }) => ({
   },
 
   async parsePrediction(ctx) {
-    let score = 0;
     const { matchId = null, userId = null } = ctx.request.body;
-    const user = await getUserById(strapi, userId);
-    // get a single prediction
-    const prono = await getSinglePrediction(strapi, userId, matchId);
-    // get the match
-    const match = await getMatchById(strapi, matchId);
-    if (prono && !prono.parsed && match && prono.match_id === match.id) {
-      const firstPlayerToScrore = await getPlayerById(
-        strapi,
-        prono.first_player_to_score
-      );
-      const firstTeamToScore = await getTeamById(
-        strapi,
-        prono.first_team_to_score
-      );
-      const { predicted_result } = prono;
-      // RULES:
-      // if the result is exacte: +3 pt
-      const guessResult = `${predicted_result.leftSide} - ${predicted_result.rightSide}`;
-      const exactResult = match.final_score_string === guessResult;
-      if (exactResult) score += 3;
-      // if not, but still have a win: +1
-      else {
-        if (hasPredictedTheWinner(predicted_result, match)) score += 1;
-        if (
-          compareScore(
-            predicted_result.leftSide,
-            predicted_result.rightSide,
-            match.left_score,
-            match.right_score
-          ) === 0
-        ) {
-          score += 1;
-        }
-      }
-      if (firstPlayerToScrore.id === match.first_player_to_score.id) {
-        score += 1;
-      }
-      if (firstTeamToScore.id === match.first_team_to_score.id) {
-        score += 1;
-      }
-
-      const updatedScore = await setScoreForUser(strapi, score, user);
-      await setPredictionAsParsed(strapi, prono);
-
-      return { data: { prediction: { ...prono }, updatedScore } };
-    } else {
-      return ctx.badRequest("Something went wrong", {
-        message: "Your prediction does not correspond to the selected Match",
-        status: 404,
-      });
-    }
+    return await execurePrediction(strapi, matchId, userId);
   },
+
+  async parseAllPredictions(ctx) {
+    const { matchId } = ctx.request.body;
+    const pronosForMatch = await getPredictionsForMatch(strapi, matchId);
+    if (pronosForMatch.length > 0) {
+      const execData = pronosForMatch.map(p => execurePrediction(strapi, matchId, p.owner.id));
+      return execData;
+    }
+
+    return ctx.badRequest("Something went wrong", {
+      message: "Cannot proceed with this match id!",
+      status: 404,
+    });
+  }
 }));

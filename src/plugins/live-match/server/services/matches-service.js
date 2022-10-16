@@ -1,24 +1,20 @@
-"use strict";
-const GlobalRepo = require("../../../repositories/global.repository");
+'use strict';
+const GlobalRepo = require('../repositories/');
 
-/**
- *  match controller
- */
-
-const { createCoreController } = require("@strapi/strapi").factories;
-
-module.exports = createCoreController("api::match.match", ({ strapi }) => ({
-  async find(ctx) {
+module.exports = ({ strapi }) => ({
+  async findAllMatches() {
     const matches = await strapi.entityService.findMany("api::match.match", {
       populate: {
         left_side: {
           populate: {
             players: true,
+            flag: true,
           },
         },
         right_side: {
           populate: {
             players: true,
+            flag: true,
           },
         },
       },
@@ -37,6 +33,6 @@ module.exports = createCoreController("api::match.match", ({ strapi }) => ({
       })
     );
 
-    return { data: results };
+    return results;
   },
-}));
+});

@@ -17,6 +17,10 @@ module.exports = ({ env }) => ({
     enabled: true,
     resolve: './src/plugins/teams-seeder'
   },
+  'live-match': {
+    enabled: true,
+    resolve: './src/plugins/live-match'
+  },
   'import-export-entries': {
     enabled: true,
   },
