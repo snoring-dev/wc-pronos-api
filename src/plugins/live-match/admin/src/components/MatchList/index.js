@@ -18,7 +18,8 @@ function MatchList({ matches, onSelectedItem = () => {} }) {
             key={nanoid()}
             onClick={() => onSelectedItem(match)}
             style={{
-              // width: "240px",
+              marginTop: "15px",
+              marginBottom: "15px",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -35,8 +36,8 @@ function MatchList({ matches, onSelectedItem = () => {} }) {
               <Box>
                 <img
                   style={{ borderRadius: 5 }}
-                  src={match.left_side.flag.url}
-                  alt={match.left_side.name}
+                  src={match?.left_side?.flag?.url ?? ''}
+                  alt={match?.left_side?.name}
                   width="40"
                   height="30"
                 />
@@ -65,7 +66,7 @@ function MatchList({ matches, onSelectedItem = () => {} }) {
               <Box>
                 <img
                   style={{ borderRadius: 5 }}
-                  src={match.right_side.flag.url}
+                  src={match?.right_side?.flag?.url ?? ''}
                   alt={match.right_side.name}
                   width="40"
                   height="30"

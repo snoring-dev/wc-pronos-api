@@ -1,5 +1,5 @@
-'use strict';
-const GlobalRepo = require('../repositories/');
+"use strict";
+const GlobalRepo = require("../repositories/");
 
 module.exports = ({ strapi }) => ({
   async findAllMatches() {
@@ -17,6 +17,8 @@ module.exports = ({ strapi }) => ({
             flag: true,
           },
         },
+        first_player_to_score: true,
+        first_team_to_score: true,
       },
     });
 
@@ -34,5 +36,27 @@ module.exports = ({ strapi }) => ({
     );
 
     return results;
+  },
+
+  async saveResult(requestBody) {
+    const { matchId, result } = requestBody.data;
+    // const player = GlobalRepo.getPlayerById(result.firstPlayerToScore);
+    // const team = GlobalRepo.getTeamById(result.firstTeamToScore);
+    const match = await strapi.entityService.update(
+      "api::match.match",
+      matchId,
+      {
+        data: {
+          left_score: result.score.leftSide,
+          right_score: result.score.rightSide,
+          final_score_string: result.score.resultString,
+          finished: true,
+          first_player_to_score: result.firstPlayerToScore,
+          first_team_to_score: result.firstTeamToScore,
+        },
+      }
+    );
+
+    return match;
   },
 });

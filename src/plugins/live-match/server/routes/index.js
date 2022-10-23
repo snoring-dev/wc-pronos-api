@@ -17,4 +17,13 @@ module.exports = [
       auth: false,
     },
   },
+  {
+    method: "POST",
+    path: "/save-result",
+    handler: "matchPluginController.saveResult",
+    config: {
+      policies: [],
+      auth: false,
+    },
+  },
 ];

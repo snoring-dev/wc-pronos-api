@@ -12,6 +12,12 @@ const matchRequests = {
       body: { data: { matchId, userId } },
     });
   },
+  saveResult: async (matchId, result) => {
+    return await request('/live-match/save-result', {
+      method: "POST",
+      body: { data: { matchId, result } },
+    });
+  },
 };
 
 export default matchRequests;

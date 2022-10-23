@@ -29,16 +29,8 @@ const initialScore = {
   resultString: "0 - 0",
 };
 
-function MatchView({ selectedMatch }) {
-  const [finalScore, setFinalScore] = useState(
-    selectedMatch
-      ? {
-          leftSide: selectedMatch?.left_score ?? 0,
-          rightSide: selectedMatch?.right_score ?? 0,
-          resultString: selectedMatch?.final_score_string ?? "0 - 0",
-        }
-      : initialScore
-  );
+function MatchView({ selectedMatch, sendResult = () => {} }) {
+  const [finalScore, setFinalScore] = useState(initialScore);
   const [firstPlayerToScore, setFirstPlayerToScore] = useState(null);
   const [firstTeamToScore, setFirstTeamToScore] = useState(null);
 
@@ -52,6 +44,11 @@ function MatchView({ selectedMatch }) {
       rightSide: selectedMatch?.right_score ?? 0,
       resultString: selectedMatch?.final_score_string ?? "0 - 0",
     });
+
+    setFirstTeamToScore(selectedMatch?.first_team_to_score);
+    setFirstPlayerToScore(selectedMatch?.first_player_to_score);
+
+    console.log('Changed!');
   }, [selectedMatch]);
 
   if (!selectedMatch) {
@@ -71,6 +68,7 @@ function MatchView({ selectedMatch }) {
     right_side: rightSide = null,
     final_score_string: matchResult = "",
     predictions = [],
+    finished = false,
   } = selectedMatch;
   const players = [...leftSide?.players, ...rightSide?.players];
 
@@ -90,13 +88,13 @@ function MatchView({ selectedMatch }) {
   };
 
   const submitResult = () => {
-    console.log("RESULT:", {
+    sendResult(selectedMatch.id, {
       score: {
         ...finalScore,
         resultString: `${finalScore.leftSide} - ${finalScore.rightSide}`,
       },
-      firstPlayerToScore,
-      firstTeamToScore,
+      firstPlayerToScore: firstPlayerToScore.id,
+      firstTeamToScore: firstTeamToScore.id,
     });
   };
 
@@ -104,11 +102,11 @@ function MatchView({ selectedMatch }) {
     if (leftSide.id === id) return leftSide;
     if (rightSide.id === id) return rightSide;
     return null;
-  }
+  };
 
   const getPlayer = (id) => {
-    return players.find(p => p.id === id);
-  }
+    return players.find((p) => p.id === id);
+  };
 
   return (
     <Container>
@@ -140,7 +138,10 @@ function MatchView({ selectedMatch }) {
             label={leftSide?.name}
             name={leftSide?.country_code}
             onValueChange={(value) => handleInputChanges("leftSide", value)}
-            value={finalScore?.leftSide}
+            value={Number(
+              finished ? selectedMatch?.left_score : finalScore?.leftSide
+            )}
+            disabled={finished}
           />
           <Typography variant="alpha">-</Typography>
           <NumberInput
@@ -148,12 +149,16 @@ function MatchView({ selectedMatch }) {
             label={rightSide?.name}
             name={rightSide?.country_code}
             onValueChange={(value) => handleInputChanges("rightSide", value)}
-            value={finalScore?.rightSide}
+            value={Number(
+              finished ? selectedMatch?.right_score : finalScore?.rightSide
+            )}
+            disabled={finished}
           />
         </FinalScoreInputs>
         <Selections>
           <WinnerField>
             <Select
+              disabled={finished}
               className="match-select"
               label="First team to score"
               onChange={(val) => setTeam(val)}
@@ -189,6 +194,7 @@ function MatchView({ selectedMatch }) {
           </WinnerField>
           <StrikerField>
             <Select
+              disabled={finished}
               size="M"
               label="First player to score"
               onChange={(val) => setPlayer(val)}
@@ -202,11 +208,13 @@ function MatchView({ selectedMatch }) {
             </Select>
           </StrikerField>
         </Selections>
-        <BtnWrapper>
-          <Button onClick={submitResult} fullWidth>
-            {"Save final result!".toUpperCase()}
-          </Button>
-        </BtnWrapper>
+        {!finished && (
+          <BtnWrapper>
+            <Button onClick={submitResult} fullWidth>
+              {"Save final result!".toUpperCase()}
+            </Button>
+          </BtnWrapper>
+        )}
       </ControlPanel>
       <Legend>all predictions</Legend>
       <MatchPredictions

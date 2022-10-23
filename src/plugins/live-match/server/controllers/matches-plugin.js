@@ -8,6 +8,13 @@ module.exports = {
       .findAllMatches();
   },
 
+  async saveResult(ctx) {
+    ctx.body = await strapi
+      .plugin('live-match')
+      .service('matchesService')
+      .saveResult(ctx.request.body);
+  },
+
   async parse(ctx) {
     ctx.body = 'hello world!';
   },

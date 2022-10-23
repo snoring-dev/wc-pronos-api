@@ -18,19 +18,35 @@ const HomePage = () => {
   const [selectedMatch, setSelectedMatch] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  useAsyncRetry(async () => {
+  const allMatches = useAsyncRetry(async () => {
     setIsLoading(true);
     const entries = await matchRequests.findAll();
     setData(entries);
     setIsLoading(false);
   });
 
+  const sendMatchResult = async (id, data) => {
+    try {
+      const match = await matchRequests.saveResult(id, data);
+      if (match.finished) {
+        allMatches.retry();
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return (
     <>
       <Worldcup />
       <Box padding={8} background="neutral100">
         <TwoColsLayout
-          startCol={<MatchView selectedMatch={selectedMatch} />}
+          startCol={
+            <MatchView
+              sendResult={sendMatchResult}
+              selectedMatch={selectedMatch}
+            />
+          }
           endCol={
             <MatchList
               onSelectedItem={(match) => {
