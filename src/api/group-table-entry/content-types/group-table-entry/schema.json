@@ -1,0 +1,42 @@
+{
+  "kind": "collectionType",
+  "collectionName": "group_table_entries",
+  "info": {
+    "singularName": "group-table-entry",
+    "pluralName": "group-table-entries",
+    "displayName": "group_table_entry"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "table": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::group-table.group-table",
+      "inversedBy": "entries"
+    },
+    "team": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::team.team"
+    },
+    "wins": {
+      "type": "integer",
+      "default": 0
+    },
+    "draws": {
+      "type": "integer",
+      "default": 0
+    },
+    "losses": {
+      "type": "integer",
+      "default": 0
+    },
+    "points": {
+      "type": "integer",
+      "default": 0
+    }
+  }
+}

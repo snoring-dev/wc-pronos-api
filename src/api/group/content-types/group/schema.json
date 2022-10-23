@@ -38,6 +38,12 @@
     },
     "label": {
       "type": "string"
+    },
+    "table": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::group-table.group-table",
+      "mappedBy": "group"
     }
   }
 }

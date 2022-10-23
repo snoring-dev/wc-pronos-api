@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "group_tables",
+  "info": {
+    "singularName": "group-table",
+    "pluralName": "group-tables",
+    "displayName": "group_table",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "group": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::group.group",
+      "inversedBy": "table"
+    },
+    "entries": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::group-table-entry.group-table-entry",
+      "mappedBy": "table"
+    }
+  }
+}
