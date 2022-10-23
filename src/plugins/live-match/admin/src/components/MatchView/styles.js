@@ -104,3 +104,36 @@ export const BtnWrapper = styled.div`
   width: 100%;
   padding: 0px 20px 20px 20px;
 `;
+
+export const Legend = styled.div`
+    font-size: 14px;
+    text-transform: uppercase;
+    background-color: #4945ff;
+    border-radius: 3px;
+    padding: 4px 8px;
+    color: white;
+    max-width: 150px;
+    text-align: center;
+    margin: 25px auto;
+    position: relative;
+    &::before {
+        content: " ";
+        display: block;
+        width: 150px;
+        height: 1px;
+        background-color: #4945ff;
+        position: absolute;
+        top: 10px;
+        left: -150px;
+    }
+    &::after {
+        content: " ";
+        display: block;
+        width: 150px;
+        height: 1px;
+        background-color: #4945ff;
+        position: absolute;
+        top: 10px;
+        right: -150px;
+    }
+`;

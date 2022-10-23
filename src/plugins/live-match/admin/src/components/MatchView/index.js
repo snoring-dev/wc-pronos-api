@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box } from "@strapi/design-system/Box";
 import { EmptyStateLayout } from "@strapi/design-system/EmptyStateLayout";
 import { Typography } from "@strapi/design-system/Typography";
@@ -19,7 +19,9 @@ import {
   StrikerField,
   Selections,
   BtnWrapper,
+  Legend,
 } from "./styles";
+import MatchPredictions from "../MatchPredictions";
 
 const initialScore = {
   leftSide: 0,
@@ -28,13 +30,29 @@ const initialScore = {
 };
 
 function MatchView({ selectedMatch }) {
-  const [finalScore, setFinalScore] = useState(initialScore);
+  const [finalScore, setFinalScore] = useState(
+    selectedMatch
+      ? {
+          leftSide: selectedMatch?.left_score ?? 0,
+          rightSide: selectedMatch?.right_score ?? 0,
+          resultString: selectedMatch?.final_score_string ?? "0 - 0",
+        }
+      : initialScore
+  );
   const [firstPlayerToScore, setFirstPlayerToScore] = useState(null);
   const [firstTeamToScore, setFirstTeamToScore] = useState(null);
 
   const handleInputChanges = (field, value) => {
     setFinalScore({ ...finalScore, [field]: Number(value) });
   };
+
+  useEffect(() => {
+    setFinalScore({
+      leftSide: selectedMatch?.left_score ?? 0,
+      rightSide: selectedMatch?.right_score ?? 0,
+      resultString: selectedMatch?.final_score_string ?? "0 - 0",
+    });
+  }, [selectedMatch]);
 
   if (!selectedMatch) {
     return (
@@ -52,6 +70,7 @@ function MatchView({ selectedMatch }) {
     left_side: leftSide = null,
     right_side: rightSide = null,
     final_score_string: matchResult = "",
+    predictions = [],
   } = selectedMatch;
   const players = [...leftSide?.players, ...rightSide?.players];
 
@@ -80,6 +99,16 @@ function MatchView({ selectedMatch }) {
       firstTeamToScore,
     });
   };
+
+  const getTeam = (id) => {
+    if (leftSide.id === id) return leftSide;
+    if (rightSide.id === id) return rightSide;
+    return null;
+  }
+
+  const getPlayer = (id) => {
+    return players.find(p => p.id === id);
+  }
 
   return (
     <Container>
@@ -111,7 +140,7 @@ function MatchView({ selectedMatch }) {
             label={leftSide?.name}
             name={leftSide?.country_code}
             onValueChange={(value) => handleInputChanges("leftSide", value)}
-            value={finalScore?.leftSide ?? 0}
+            value={finalScore?.leftSide}
           />
           <Typography variant="alpha">-</Typography>
           <NumberInput
@@ -119,7 +148,7 @@ function MatchView({ selectedMatch }) {
             label={rightSide?.name}
             name={rightSide?.country_code}
             onValueChange={(value) => handleInputChanges("rightSide", value)}
-            value={finalScore?.rightSide ?? 0}
+            value={finalScore?.rightSide}
           />
         </FinalScoreInputs>
         <Selections>
@@ -179,6 +208,13 @@ function MatchView({ selectedMatch }) {
           </Button>
         </BtnWrapper>
       </ControlPanel>
+      <Legend>all predictions</Legend>
+      <MatchPredictions
+        pronostics={predictions}
+        parseAllPredictions={() => {}}
+        findTeam={getTeam}
+        findPlayer={getPlayer}
+      />
     </Container>
   );
 }

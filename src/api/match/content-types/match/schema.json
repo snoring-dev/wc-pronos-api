@@ -47,6 +47,13 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::team.team"
+    },
+    "played_at": {
+      "type": "datetime"
+    },
+    "finished": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
