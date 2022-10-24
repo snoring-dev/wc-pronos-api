@@ -54,7 +54,9 @@ export const ControlPanel = styled.div`
     padding: 5px 10px;
     color: white;
     background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 0px 0px 5px 0px;
+    border-radius: 5px 0px 5px 0px;
+    left: -1px;
+    top: -1px;
   }
 `;
 

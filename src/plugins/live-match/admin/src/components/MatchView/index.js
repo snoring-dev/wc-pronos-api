@@ -44,11 +44,8 @@ function MatchView({ selectedMatch, sendResult = () => {} }) {
       rightSide: selectedMatch?.right_score ?? 0,
       resultString: selectedMatch?.final_score_string ?? "0 - 0",
     });
-
     setFirstTeamToScore(selectedMatch?.first_team_to_score);
     setFirstPlayerToScore(selectedMatch?.first_player_to_score);
-
-    console.log('Changed!');
   }, [selectedMatch]);
 
   if (!selectedMatch) {
