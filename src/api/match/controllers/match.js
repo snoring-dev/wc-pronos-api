@@ -13,12 +13,20 @@ module.exports = createCoreController("api::match.match", ({ strapi }) => ({
       populate: {
         left_side: {
           populate: {
-            players: true,
+            players: {
+              populate: {
+                media: true,
+              }
+            },
           },
         },
         right_side: {
           populate: {
-            players: true,
+            players: {
+              populate: {
+                media: true,
+              }
+            },
           },
         },
       },
