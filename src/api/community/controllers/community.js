@@ -180,13 +180,26 @@ module.exports = createCoreController(
               },
             }
           );
+          
+          // Check if the user has a score or not yet!
+          let scoreForUser;
+          if (user.score) {
+            scoreForUser = user.score;
+          } else {
+            scoreForUser = await strapi.entityService.create("api::score.score", {
+              data: {
+                value: 0,
+                user: user.id,
+              },
+            });
+          }
 
           // Create the related ranking record
           await strapi.entityService.create(
             "api::user-score-community.user-score-community",
             {
               data: {
-                score: user?.score?.id,
+                score: scoreForUser.id,
                 community: community.id,
                 user: user.id,
               },
