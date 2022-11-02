@@ -30,6 +30,12 @@
     "is_private": {
       "type": "boolean",
       "default": false
+    },
+    "user_score_communities": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::user-score-community.user-score-community",
+      "mappedBy": "community"
     }
   }
 }

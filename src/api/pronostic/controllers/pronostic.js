@@ -152,7 +152,7 @@ const compareScore = (l1, r1, l2, r2) => {
   return 0;
 };
 
-const execurePrediction = async (strapi, matchId, userId) => {
+const executePrediction = async (strapi, matchId, userId) => {
   let score = 0;
   const user = await getUserById(strapi, userId);
   // get a single prediction
@@ -205,7 +205,7 @@ const execurePrediction = async (strapi, matchId, userId) => {
       status: 404,
     });
   }
-}
+};
 
 module.exports = createCoreController(collection, ({ strapi }) => ({
   async setPrediction(ctx) {
@@ -218,6 +218,13 @@ module.exports = createCoreController(collection, ({ strapi }) => ({
     } = ctx.request.body;
     const usedMatch = await getMatchById(strapi, matchId);
     const predictionOwner = await getUserById(strapi, userId);
+    const prono = await getSinglePrediction(strapi, userId, matchId);
+
+    // look for old prediction, if set: drop it!
+    if (prono && prono.id) {
+      await strapi.entityService.create(collection, prono.id);
+    }
+
     if (usedMatch && predictionOwner) {
       const record = await strapi.entityService.create(collection, {
         data: {
@@ -265,14 +272,16 @@ module.exports = createCoreController(collection, ({ strapi }) => ({
 
   async parsePrediction(ctx) {
     const { matchId = null, userId = null } = ctx.request.body;
-    return await execurePrediction(strapi, matchId, userId);
+    return await executePrediction(strapi, matchId, userId);
   },
 
   async parseAllPredictions(ctx) {
     const { matchId } = ctx.request.body;
     const pronosForMatch = await getPredictionsForMatch(strapi, matchId);
     if (pronosForMatch.length > 0) {
-      const execData = pronosForMatch.map(p => execurePrediction(strapi, matchId, p.owner.id));
+      const execData = pronosForMatch.map((p) =>
+        executePrediction(strapi, matchId, p.owner.id)
+      );
       return execData;
     }
 
@@ -280,5 +289,5 @@ module.exports = createCoreController(collection, ({ strapi }) => ({
       message: "Cannot proceed with this match id!",
       status: 404,
     });
-  }
+  },
 }));

@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "user_score_communities",
+  "info": {
+    "singularName": "user-score-community",
+    "pluralName": "user-score-communities",
+    "displayName": "user_score_community",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "community": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::community.community",
+      "inversedBy": "user_score_communities"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "score": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::score.score"
+    },
+    "previous_ranking": {
+      "type": "integer",
+      "default": 0
+    },
+    "current_ranking": {
+      "type": "integer",
+      "default": 0
+    }
+  }
+}
