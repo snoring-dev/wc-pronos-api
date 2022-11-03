@@ -97,6 +97,35 @@ const updateRankings = async (strapi, ranked) => {
   });
 };
 
+const attachScoreAndRanking = async (strapi, users, community) => {
+  users.forEach(async (user) => {
+    // Check if the user has a score or not yet!
+    let scoreForUser;
+    if (user.score) {
+      scoreForUser = user.score;
+    } else {
+      scoreForUser = await strapi.entityService.create("api::score.score", {
+        data: {
+          value: 0,
+          user: user.id,
+        },
+      });
+    }
+
+    // Create the related ranking record
+    await strapi.entityService.create(
+      "api::user-score-community.user-score-community",
+      {
+        data: {
+          score: scoreForUser.id,
+          community: community.id,
+          user: user.id,
+        },
+      }
+    );
+  });
+};
+
 module.exports = createCoreController(
   "api::community.community",
   ({ strapi }) => ({
@@ -227,6 +256,13 @@ module.exports = createCoreController(
       try {
         const { id } = ctx.request.params;
         let community = await getCommunityById(strapi, id);
+        const { user_score_communities: userRankings, users: relatedUsers } = community;
+
+        if (userRankings.length < 1 && relatedUsers.length > 0) {
+          await attachScoreAndRanking(strapi, relatedUsers, community);
+          community = await getCommunityById(strapi, id);
+        }
+
         const { user_score_communities } = community;
 
         // formating data
