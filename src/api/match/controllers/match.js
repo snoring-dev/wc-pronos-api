@@ -1,4 +1,5 @@
 "use strict";
+const dayjs = require('dayjs')
 const GlobalRepo = require("../../../repositories/global.repository");
 
 /**
@@ -43,6 +44,7 @@ module.exports = createCoreController("api::match.match", ({ strapi }) => ({
         return {
           ...match,
           predictions,
+          isOld: dayjs().isBefore(dayjs(match.played_at)),
         };
       })
     );
