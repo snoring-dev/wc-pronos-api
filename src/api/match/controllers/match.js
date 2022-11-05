@@ -44,7 +44,7 @@ module.exports = createCoreController("api::match.match", ({ strapi }) => ({
         return {
           ...match,
           predictions,
-          isOld: dayjs().isBefore(dayjs(match.played_at)),
+          isOld: !(dayjs().isBefore(dayjs(match.played_at))),
         };
       })
     );
