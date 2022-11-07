@@ -29,7 +29,12 @@ const initialScore = {
   resultString: "0 - 0",
 };
 
-function MatchView({ selectedMatch, sendResult = () => {} }) {
+function MatchView({
+  selectedMatch,
+  sendResult = () => {},
+  onParse = (mId, uId, cb) => {},
+  onParseAll = (mId, cb) => {},
+}) {
   const [finalScore, setFinalScore] = useState(initialScore);
   const [firstPlayerToScore, setFirstPlayerToScore] = useState(null);
   const [firstTeamToScore, setFirstTeamToScore] = useState(null);
@@ -216,9 +221,11 @@ function MatchView({ selectedMatch, sendResult = () => {} }) {
       <Legend>all predictions</Legend>
       <MatchPredictions
         pronostics={predictions}
-        parseAllPredictions={() => {}}
+        parseAllPredictions={onParseAll}
+        parseSinglePrediction={onParse}
         findTeam={getTeam}
         findPlayer={getPlayer}
+        matchId={selectedMatch.id}
       />
     </Container>
   );

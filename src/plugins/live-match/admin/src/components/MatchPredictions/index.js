@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Table,
   Thead,
@@ -14,16 +14,49 @@ import { Typography } from "@strapi/design-system/Typography";
 import { IconButton } from "@strapi/design-system/IconButton";
 import { VisuallyHidden } from "@strapi/design-system/VisuallyHidden";
 import { Badge } from "@strapi/design-system/Badge";
-import Plus from "@strapi/icons/Plus";
 import Play from "@strapi/icons/Play";
 import { nanoid } from "nanoid";
+import Magic from "@strapi/icons/Magic";
+import Loader from "@strapi/icons/Loader";
 
 function MatchPredictions({
+  matchId,
   pronostics,
   parseAllPredictions,
+  parseSinglePrediction,
   findTeam,
   findPlayer,
 }) {
+  const [loading, setLoading] = useState([]);
+
+  useEffect(() => {
+    const loadings = pronostics.map((p) => ({
+      id: p.id,
+      status: false,
+      isDone: false,
+    }));
+    setLoading(loadings);
+  }, [pronostics]);
+
+  const getLoadingInstance = (id) => loading.find((l) => l.id === id);
+
+  const changeLoading = (id, flag, isDone) => {
+    const loadIndex = loading.findIndex((l) => l.id === id);
+    if (loadIndex !== -1) {
+      loading[loadIndex].status = flag;
+      loading[loadIndex].isDone = isDone;
+    }
+    setLoading([...loading]);
+  };
+
+  const getIcon = (p) => {
+    const instance = getLoadingInstance(p.id);
+    const isLoading = instance && instance.status && !instance.isDone;
+    if (isLoading) return <Loader />;
+    if (instance && instance.isDone) return null;
+    return <Play />;
+  };
+
   return (
     <Box
       background="neutral0"
@@ -36,7 +69,10 @@ function MatchPredictions({
         colCount={4}
         rowCount={10}
         footer={
-          <TFooter onClick={parseAllPredictions} icon={<Plus />}>
+          <TFooter
+            onClick={() => parseAllPredictions(matchId, () => console.log('Done!'))}
+            icon={<Magic />}
+          >
             Parse all predictions
           </TFooter>
         }
@@ -77,25 +113,27 @@ function MatchPredictions({
               <Tr key={nanoid()}>
                 <Td>
                   <Typography textColor="neutral800">
-                    <Badge active>{prediction.id ? prediction.id : "undefined"}</Badge>
+                    <Badge active>
+                      {prediction.id ? prediction.id : "undefined"}
+                    </Badge>
                   </Typography>
                 </Td>
 
                 <Td>
                   <Typography textColor="neutral800">
-                    {prediction?.owner?.username ?? 'N/A'}
+                    {prediction?.owner?.username ?? "N/A"}
                   </Typography>
                 </Td>
 
                 <Td>
                   <Typography textColor="neutral800">
-                    {tm?.name ?? 'N/A'}
+                    {tm?.name ?? "N/A"}
                   </Typography>
                 </Td>
 
                 <Td>
                   <Typography textColor="neutral800">
-                    {pl?.fullname ?? 'N/A'}
+                    {pl?.fullname ?? "N/A"}
                   </Typography>
                 </Td>
 
@@ -110,10 +148,17 @@ function MatchPredictions({
                     {!prediction.parsed && (
                       <Box paddingLeft={1}>
                         <IconButton
-                          onClick={() => console.log(prediction.id)}
+                          onClick={async () => {
+                            changeLoading(prediction.id, true, false);
+                            await parseSinglePrediction(
+                              matchId,
+                              prediction?.owner?.id,
+                              () => changeLoading(prediction.id, false, true)
+                            );
+                          }}
                           label="Execute"
                           noBorder
-                          icon={<Play />}
+                          icon={getIcon(prediction)}
                         />
                       </Box>
                     )}

@@ -59,4 +59,28 @@ module.exports = ({ strapi }) => ({
 
     return match;
   },
+
+  async parsePrediction(ctx) {
+    const { matchId = null, userId = null } = ctx.request.body;
+    return await GlobalRepo.executePrediction(strapi, matchId, userId);
+  },
+
+  async parseAllPredictions(ctx) {
+    const { data: { matchId } } = ctx.request.body;
+    const pronosForMatch = await GlobalRepo.getPredictionsForMatch(
+      strapi,
+      matchId
+    );
+    if (pronosForMatch.length > 0) {
+      const execData = pronosForMatch.map((p) =>
+        GlobalRepo.executePrediction(strapi, matchId, p.owner.id)
+      );
+      return execData;
+    }
+
+    return ctx.badRequest("Something went wrong", {
+      message: "Cannot proceed with this match id!",
+      status: 404,
+    });
+  },
 });

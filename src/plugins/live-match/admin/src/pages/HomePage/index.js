@@ -36,6 +36,31 @@ const HomePage = () => {
     }
   };
 
+  const parsePrediction = async (matchId, userId, cb) => {
+    try {
+      const resp = await matchRequests.parsePrediction(matchId, userId);
+      if (resp.data.prediction && resp.data.prediction.id) {
+        allMatches.retry();
+        const match = data.find(m => m.id === matchId);
+        if (match) setSelectedMatch(match);
+        if (cb) cb();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const parseAllPredictions = async (matchId, cb) => {
+    try {
+      const resp = await matchRequests.parseAllPredictions(matchId);
+      if (resp) {
+        location.reload();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <>
       <Worldcup />
@@ -45,13 +70,13 @@ const HomePage = () => {
             <MatchView
               sendResult={sendMatchResult}
               selectedMatch={selectedMatch}
+              onParse={parsePrediction}
+              onParseAll={parseAllPredictions}
             />
           }
           endCol={
             <MatchList
-              onSelectedItem={(match) => {
-                setSelectedMatch(match);
-              }}
+              onSelectedItem={(match) => setSelectedMatch(match)}
               matches={data}
             />
           }

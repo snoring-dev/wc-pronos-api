@@ -12,6 +12,12 @@ const matchRequests = {
       body: { data: { matchId, userId } },
     });
   },
+  parseAllPredictions: async (matchId) => {
+    return await request('/live-match/parseAll', {
+      method: "POST",
+      body: { data: { matchId } },
+    });
+  },
   saveResult: async (matchId, result) => {
     return await request('/live-match/save-result', {
       method: "POST",

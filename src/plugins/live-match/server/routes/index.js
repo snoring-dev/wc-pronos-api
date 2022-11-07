@@ -19,6 +19,15 @@ module.exports = [
   },
   {
     method: "POST",
+    path: "/parseAll",
+    handler: "matchPluginController.parseAll",
+    config: {
+      policies: [],
+      auth: false,
+    },
+  },
+  {
+    method: "POST",
     path: "/save-result",
     handler: "matchPluginController.saveResult",
     config: {
